@@ -1,0 +1,14 @@
+#!/bin/bash
+if [ ! -e $1 ]; then
+    exit
+fi
+OLDIFS=$IFS
+INCLUDE_PATTERN='\#include *\"[^"]*\"'
+IFS=$'\n'
+HDR_INC=""
+for i in `grep "$INCLUDE_PATTERN" $1`; do
+	HDR=`echo $i | sed -e 's/\#include *\"//g' | sed -e 's/\.h\"//g'`
+	echo $HDR
+	HDR_INC=$HDR" "$HDR_INC
+done
+echo $HDR_INC

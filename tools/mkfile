@@ -1,0 +1,11 @@
+#!/bin/bash
+SWD=`echo ${0%/*}`
+cp $SWD/${1}.tpl $2
+chmod 664 $2
+FILENAME=`echo $2 | sed -e s#.*/##g`
+SINGLETON_NAME=`echo ${FILENAME}_ | sed -e 's/\./_/g' | awk '{print toupper($0)}'`
+CREATION_DATE=`LC_ALL=en_US.UTF-8 date +"%b %d, %Y"`
+sed -i s/AUTHOR_NAME/`cat $SWD/author_name`/g $2
+sed -i s/FILENAME/$FILENAME/g $2
+sed -i s/SINGLETON_NAME/$SINGLETON_NAME/g $2
+sed -i "s/CREATION_DATE/$CREATION_DATE/g" $2
